@@ -109,5 +109,3 @@ class User:
         directory_file = self._get_directory_file()
         self._remove_file(directory_file)
 
-user = User(1001, "./test", "192.168.33.10")
-user.create()
