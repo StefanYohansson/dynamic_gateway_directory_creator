@@ -10,7 +10,7 @@ class User:
         self.fs_path = fs_path
         self.sip_domain = sip_domain
 
-    def _check_requirements(self):
+    def __check_requirements(self):
         if not self.id:
             raise Exception('No ID provided')
 
@@ -20,7 +20,7 @@ class User:
         if not self.sip_domain:
             raise Exception('No sip domain provided')
 
-    def _generate_directory(self, directory_name):
+    def __generate_directory(self, directory_name):
         directory = """
 <include>
     <user id="{}">
@@ -41,18 +41,18 @@ class User:
         """
         return directory.format(directory_name, directory_name)
 
-    def _get_directory_file(self):
+    def __get_directory_file(self):
         directory_path = "{}/directory".format(self.fs_path)
         return "{}/{}.xml".format(directory_path, self.id)
 
-    def _create_directory(self):
-        directory = self._generate_directory(self.id)
-        filename = self._get_directory_file()
+    def __create_directory(self):
+        directory = self.__generate_directory(self.id)
+        filename = self.__get_directory_file()
         file = open(filename,"w+")
         file.write(directory)
         file.close()
 
-    def _generate_gateway(self, gateway_name, user_id, sip_domain):
+    def __generate_gateway(self, gateway_name, user_id, sip_domain):
         gateway = """
 <include>
     <gateway name="{}">
@@ -78,36 +78,35 @@ class User:
         """
         return gateway.format(gateway_name, user_id, sip_domain, user_id, sip_domain, user_id, sip_domain, sip_domain)
 
-    def _get_gateway_file(self):
+    def __get_gateway_file(self):
         gateway_name = "{}-GW".format(self.id)
         gateway_path = "{}/sip_profiles/gateways".format(self.fs_path)
         gateway_file = "{}/{}.xml".format(gateway_path, gateway_name)
         return gateway_file
 
-    def _create_gateway(self):
+    def __create_gateway(self):
         gateway_name = "{}-GW".format(self.id)
-        filename = self._get_gateway_file()
-        gateway = self._generate_gateway(gateway_name, self.id, self.sip_domain)
+        filename = self.__get_gateway_file()
+        gateway = self.__generate_gateway(gateway_name, self.id, self.sip_domain)
 
         file = open(filename, "w+")
         file.write(gateway)
         file.close()
 
     def create(self):
-        self._check_requirements()
-        self._create_directory()
-        self._create_gateway()
+        self.__check_requirements()
+        self.__create_directory()
+        self.__create_gateway()
 
-    def _remove_file(self, filename):
+    def __remove_file(self, filename):
         if os.path.isfile(filename):
             os.remove(filename)
 
     def delete(self):
-        self._check_requirements()
+        self.__check_requirements()
+        gateway_file = self.__get_gateway_file()
+        self.__remove_file(gateway_file)
 
-        gateway_file = self._get_gateway_file()
-        self._remove_file(gateway_file)
-
-        directory_file = self._get_directory_file()
-        self._remove_file(directory_file)
+        directory_file = self.__get_directory_file()
+        self.__remove_file(directory_file)
 
