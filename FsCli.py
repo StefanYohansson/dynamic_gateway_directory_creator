@@ -19,5 +19,3 @@ class FsCli():
     def rescan(self):
         self.__execute(["sofia profile internal rescan reloadxml"])
 
-cli = FsCli("/home/snotr/Projects/telnyx_b2bua_builder/out-docker-vm/freeswitch/bin/fs_cli")
-cli.rescan()
