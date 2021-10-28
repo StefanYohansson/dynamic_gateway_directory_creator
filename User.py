@@ -2,6 +2,8 @@ import os
 
 class User:
     id = None
+    fs_path = None
+    sip_domain = None
 
     def __init__(self, id = None, fs_path = None, sip_domain = None):
         self.id = id
