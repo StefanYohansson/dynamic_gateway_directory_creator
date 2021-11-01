@@ -21,8 +21,7 @@ class User:
             raise Exception('No sip domain provided')
 
     def __generate_directory(self, directory_name):
-        directory = """
-<include>
+        directory = """<include>
     <user id="{}">
         <params>
             <param name="password" value="1234"/>
@@ -34,16 +33,15 @@ class User:
         <variables>
             <variable name="user_context" value="public"/>
             <variable name="rtp_secure_media" value="optional"/>
-            <variable name="default_gateway" value="{}"/>
+            <variable name="default_gateway" value="{}-GW"/>
         </variables>
     </user>
-</include>
-        """
+</include>"""
         return directory.format(directory_name, directory_name)
 
     def __get_directory_file(self):
-        directory_path = "{}/directory".format(self.fs_path)
-        return "{}/{}.xml".format(directory_path, self.id)
+        directory_path = "{}/directory/default".format(self.fs_path)
+        return "{}/{}-GW.xml".format(directory_path, self.id)
 
     def __create_directory(self):
         directory = self.__generate_directory(self.id)
@@ -53,8 +51,7 @@ class User:
         file.close()
 
     def __generate_gateway(self, gateway_name, user_id, sip_domain):
-        gateway = """
-<include>
+        gateway = """<include>
     <gateway name="{}">
         <param name="username" value="{}"/>
         <param name="realm" value="{}"/>
@@ -74,8 +71,7 @@ class User:
             <variable name="sip_reg_h_X-Telnyx-RTC" value="true"/>
         </variables>
     </gateway>
-</include>
-        """
+</include>"""
         return gateway.format(gateway_name, user_id, sip_domain, user_id, sip_domain, user_id, sip_domain, sip_domain)
 
     def __get_gateway_file(self):
@@ -99,7 +95,9 @@ class User:
         self.__create_gateway()
 
     def __remove_file(self, filename):
+        print("checking path {}".format(filename))
         if os.path.isfile(filename):
+            print("removing {}".format(filename))
             os.remove(filename)
 
     def delete(self):
@@ -109,4 +107,3 @@ class User:
 
         directory_file = self.__get_directory_file()
         self.__remove_file(directory_file)
-
