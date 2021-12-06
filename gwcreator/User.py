@@ -67,9 +67,6 @@ class User:
         <param name="register" value="true"/>
         <param name="register-transport" value="udp"/>
         <param name="retry-seconds" value="30"/>
-        <variables>
-            <variable name="sip_reg_h_X-Telnyx-RTC" value="true"/>
-        </variables>
     </gateway>
 </include>"""
         return gateway.format(gateway_name, user_id, sip_domain, user_id, sip_domain, user_id, sip_domain, sip_domain)
