@@ -1,4 +1,4 @@
-this repository is a tool that mimic half of mod_telnyx_rtc behavior
+this repository is a tool that try to expose a problem after gateway deletion
 
 - add user
   - create directory file
@@ -12,4 +12,4 @@ this repository is a tool that mimic half of mod_telnyx_rtc behavior
   - reloadxml
 
 
-the purpose of the test is to stress test B2BUA without mod_telnyx_rtc and investigate if the leak is on sofia (gateway logic not prepared to be dynamic) or some other place on mod_telnyx_rtc
+the purpose of the test is to stress test B2BUA and investigate if the leak is on sofia (gateway logic not prepared to be dynamic)
