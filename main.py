@@ -1,3 +1,5 @@
+import glob
+import os
 import sys
 import configparser
 import random
@@ -48,9 +50,10 @@ def main(args, config):
             deleted_users = 0
             time.sleep(1)
     time.sleep(600)
-    for user in users:
+    freeswitch_config = config["Freeswitch"]
+    for file in os.listdir("{}/sip_profiles/gateways".format(freeswitch_config.get("FsPath"))):
+        user = file.replace('-GW.xml', '')
         remove_user(user)
-        users.remove(user)
 
     
 if __name__ == '__main__':
